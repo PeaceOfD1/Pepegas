@@ -9,57 +9,65 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// ================= SESSION =================
 app.use(
   session({
     secret: "pepegas-secret-key",
     resave: false,
     saveUninitialized: false,
     cookie: {
-      secure: false, // مهم برای Render (اگر HTTPS داشتی بعداً true میشه)
+      secure: false, // روی Render فعلاً false (بعداً اگر HTTPS فعال شد true می‌کنیم)
     },
   })
 );
 
+// ================= STATIC FILES =================
 app.use(express.static(path.join(__dirname, "public")));
 
-// ⚠️ مهم: مسیر دیتابیس بهتره absolute نباشه ولی همین هم کار می‌کنه
+// ================= DATABASE =================
 const db = new sqlite3.Database("./database.db");
 
-db.run(`
-CREATE TABLE IF NOT EXISTS users (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
-  username TEXT UNIQUE NOT NULL,
-  password TEXT NOT NULL
-)
-`);
+db.serialize(() => {
+  db.run(`
+    CREATE TABLE IF NOT EXISTS users (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      username TEXT UNIQUE NOT NULL,
+      password TEXT NOT NULL
+    )
+  `);
+});
 
 // ================= REGISTER =================
 app.post("/register", async (req, res) => {
-  const { username, password } = req.body;
+  try {
+    const { username, password } = req.body;
 
-  if (!username || !password) {
-    return res.status(400).json({
-      success: false,
-      message: "Missing username or password"
-    });
-  }
-
-  const hash = await bcrypt.hash(password, 10);
-
-  db.run(
-    "INSERT INTO users (username,password) VALUES (?,?)",
-    [username, hash],
-    function (err) {
-      if (err) {
-        return res.status(400).json({
-          success: false,
-          message: "Username already exists"
-        });
-      }
-
-      res.json({ success: true });
+    if (!username || !password) {
+      return res.status(400).json({
+        success: false,
+        message: "Missing username or password",
+      });
     }
-  );
+
+    const hash = await bcrypt.hash(password, 10);
+
+    db.run(
+      "INSERT INTO users (username, password) VALUES (?, ?)",
+      [username, hash],
+      function (err) {
+        if (err) {
+          return res.status(400).json({
+            success: false,
+            message: "Username already exists",
+          });
+        }
+
+        res.json({ success: true });
+      }
+    );
+  } catch (err) {
+    res.status(500).json({ success: false, message: "Server error" });
+  }
 });
 
 // ================= LOGIN =================
@@ -67,13 +75,20 @@ app.post("/login", (req, res) => {
   const { username, password } = req.body;
 
   db.get(
-    "SELECT * FROM users WHERE username=?",
+    "SELECT * FROM users WHERE username = ?",
     [username],
     async (err, user) => {
+      if (err) {
+        return res.status(500).json({
+          success: false,
+          message: "Database error",
+        });
+      }
+
       if (!user) {
         return res.status(400).json({
           success: false,
-          message: "User not found"
+          message: "User not found",
         });
       }
 
@@ -82,16 +97,16 @@ app.post("/login", (req, res) => {
       if (!ok) {
         return res.status(400).json({
           success: false,
-          message: "Wrong password"
+          message: "Wrong password",
         });
       }
 
       req.session.userId = user.id;
       req.session.username = user.username;
 
-      res.json({
+      return res.json({
         success: true,
-        username: user.username
+        username: user.username,
       });
     }
   );
@@ -112,14 +127,13 @@ app.get("/me", (req, res) => {
 
   res.json({
     loggedIn: true,
-    username: req.session.username
+    username: req.session.username,
   });
 });
 
-
-// 🚀 مهم‌ترین تغییر برای Render 👇
+// ================= START SERVER (RENDER SAFE) =================
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
-  console.log("Server running on port " + PORT);
+  console.log(`Server running on port ${PORT}`);
 });
