@@ -14,11 +14,15 @@ app.use(
     secret: "pepegas-secret-key",
     resave: false,
     saveUninitialized: false,
+    cookie: {
+      secure: false, // مهم برای Render (اگر HTTPS داشتی بعداً true میشه)
+    },
   })
 );
 
 app.use(express.static(path.join(__dirname, "public")));
 
+// ⚠️ مهم: مسیر دیتابیس بهتره absolute نباشه ولی همین هم کار می‌کنه
 const db = new sqlite3.Database("./database.db");
 
 db.run(`
@@ -29,6 +33,7 @@ CREATE TABLE IF NOT EXISTS users (
 )
 `);
 
+// ================= REGISTER =================
 app.post("/register", async (req, res) => {
   const { username, password } = req.body;
 
@@ -52,13 +57,12 @@ app.post("/register", async (req, res) => {
         });
       }
 
-      res.json({
-        success: true
-      });
+      res.json({ success: true });
     }
   );
 });
 
+// ================= LOGIN =================
 app.post("/login", (req, res) => {
   const { username, password } = req.body;
 
@@ -73,10 +77,7 @@ app.post("/login", (req, res) => {
         });
       }
 
-      const ok = await bcrypt.compare(
-        password,
-        user.password
-      );
+      const ok = await bcrypt.compare(password, user.password);
 
       if (!ok) {
         return res.status(400).json({
@@ -96,17 +97,17 @@ app.post("/login", (req, res) => {
   );
 });
 
+// ================= LOGOUT =================
 app.post("/logout", (req, res) => {
   req.session.destroy(() => {
     res.json({ success: true });
   });
 });
 
+// ================= ME =================
 app.get("/me", (req, res) => {
   if (!req.session.userId) {
-    return res.json({
-      loggedIn: false
-    });
+    return res.json({ loggedIn: false });
   }
 
   res.json({
@@ -116,6 +117,9 @@ app.get("/me", (req, res) => {
 });
 
 
-app.listen(3000, () => {
-  console.log("Server running on http://localhost:3000");
+// 🚀 مهم‌ترین تغییر برای Render 👇
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () => {
+  console.log("Server running on port " + PORT);
 });
