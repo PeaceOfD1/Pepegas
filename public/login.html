@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>PEPEGAS LOGIN</title>
+
+    <link rel="shortcut icon" href="pepe.png" type="image/x-icon">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="login-style.css">
+    <link rel="stylesheet" href="transition.css">
+
+</head>
+
+<body>
+
+    <main class="launcher">
+
+        <h1 class="server-title">
+            PEPEGAS LOGIN
+        </h1>
+
+        <section class="panel">
+
+            <div class="panel-top">
+
+                <div class="panel-image">
+
+                    <img src="pepe.png" alt="Pepe">
+
+                </div>
+
+                <div class="panel-right">
+
+                    <form id="playerLogin" class="login-panel">
+
+                        <h2 class="login">LOGIN</h2>
+
+                        <input id="username" type="text" placeholder="Username" autocomplete="username" required>
+
+                        <input id="password" type="password" placeholder="Password" autocomplete="current-password"
+                            required>
+
+                        <button type="submit" id="loginBtn">
+                            LOGIN
+                        </button>
+
+                        <button type="button" id="registerBtn">
+                            REGISTER
+                        </button>
+
+                        <p id="loginError" class="login-error"></p>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <script src="transition.js"></script>
+    <script src="login.js"></script>
+
+</body>
+
+</html>

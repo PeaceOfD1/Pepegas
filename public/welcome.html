@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>PEPEGAS SERVER</title>
+
+  <link rel="shortcut icon" href="pepe.png">
+  <link rel="stylesheet" href="welcome.css">
+  <link rel="stylesheet" href="transition.css">
+
+</head>
+
+<body>
+
+  <main class="launcher">
+
+    <h1 class="server-title">
+
+      PEPEGAS SERVER
+
+    </h1>
+
+    <section class="panel">
+
+      <div class="welcome-header">
+
+        <div class="panel-image">
+
+          <img src="pepe.png" alt="Pepe">
+
+        </div>
+
+        <div class="welcome-text">
+
+          <h2>
+            Welcome,
+            <span id="welcomeName">
+
+            </span>
+          </h2>
+
+          <p>
+            Ready to play?
+          </p>
+
+        </div>
+
+      </div>
+
+      <div class="welcome-buttons">
+
+        <button id="playBtn">PLAY</button>
+
+        <button id="profileBtn">PROFILE</button>
+
+        <button id="settingsBtn">SETTINGS</button>
+
+        <button id="logoutBtn">LOGOUT</button>
+
+      </div>
+
+      <div class="status-info">
+
+        <div class="status-item">
+
+          <h4>STATUS</h4>
+
+          <span id="status">--</span>
+
+        </div>
+
+        <div class="status-item">
+
+          <h4>PLAYERS</h4>
+
+          <span id="players">-- / --</span>
+
+        </div>
+
+        <div class="status-item">
+
+          <h4>PING</h4>
+
+          <span id="ping">--</span>
+
+        </div>
+
+      </div>
+
+      <section id="contentPanel" class="profile-panel">
+
+        <!-- PROFILE -->
+
+        <div id="profileContent">
+
+          <h2>PLAYER PROFILE</h2>
+
+          <div class="profile-grid">
+
+            <div>
+              <span>Username</span>
+              <strong id="profileUsername">-</strong>
+            </div>
+
+            <div>
+              <span>Rank</span>
+              <strong id="profileRank">VIP</strong>
+            </div>
+
+            <div>
+              <span>Level</span>
+              <strong id="profileLevel">37</strong>
+            </div>
+
+            <div>
+              <span>XP</span>
+              <strong id="profileXP">1842</strong>
+            </div>
+
+            <div>
+              <span>Money</span>
+              <strong id="profileMoney">$52000</strong>
+            </div>
+
+            <div>
+              <span>World</span>
+              <strong id="profileWorld">Survival</strong>
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- SETTINGS -->
+
+        <div id="settingsContent">
+
+          <h2>LOGIN HISTORY</h2>
+
+          <div class="log-container">
+
+            <div class="log-row">
+
+              <span>03 Jul 2026 18:42</span>
+
+              <span>🟢 Login</span>
+
+              <span>85.214.***.***</span>
+
+              <span>Berlin</span>
+
+              <span>Chrome</span>
+
+            </div>
+
+            <div class="log-row">
+
+              <span>03 Jul 2026 20:11</span>
+
+              <span>🔴 Logout</span>
+
+              <span>85.214.***.***</span>
+
+              <span>Berlin</span>
+
+              <span>Chrome</span>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </section>
+
+      <p id="copyMessage"></p>
+
+    </section>
+
+
+
+
+  </main>
+
+  <script src="transition.js"></script>
+  <script src="welcome.js"></script>
+
+</body>
+
+</html>

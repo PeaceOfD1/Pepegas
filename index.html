@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="shortcut icon" href="../images/pepe.png" type="image/x-icon">
+  <title>PEPEGAS</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <header id="header">
+    <h1 class="server-title">Pepegas Server</h1>
+  </header>
+
+  <main id="landing">
+    <div class="image-box">
+      <img src="../images/pepe.png" alt="Pepegas Server">
+    </div>
+
+    <button id="start" type="button">Start</button>
+  </main>
+
+  <section id="dashboard">
+    <div class="panel-div">
+      <div class="dashboard">
+        <div class="panel status-card">
+          <h2>SERVER STATUS</h2>
+
+          <form class="login-panel" id="playerLogin">
+            <input id="username" type="text" placeholder="Username" autocomplete="username">
+            <input id="password" type="password" placeholder="Password" autocomplete="current-password">
+            <button type="submit">Go</button>
+          </form>
+          <p class="login-error" id="loginError"></p>
+
+          <!-- 👇 Player Status -->
+          <p>Status: <span id="status">--</span></p>
+          <p>Players: <span id="players">--</span></p>
+          <p>Ping: <span id="ping">--</span></p>
+
+          <!-- 👇 Player List -->
+          <div class="players-box">
+            <h3>ONLINE PLAYERS</h3>
+            <div id="playerList">--</div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script src="app.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="shortcut icon" href="../images/pepe.png" type="image/x-icon">
+  <title>Hello Player</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="welcome-page">
+  <main class="welcome-card">
+    <h1>Hello player <span id="welcomeName">Player</span></h1>
+  </main>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const username = params.get("username") || sessionStorage.getItem("playerName") || "Player";
+    document.getElementById("welcomeName").innerText = username;
+  </script>
+</body>
+
+</html>
